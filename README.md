@@ -1,5 +1,7 @@
 # FinAPI - Financeira
 
+Uma API para o gerenciamento de finanças, desenvolvida durante o curso de NodeJS da Rocketseat (Ignite)
+
 ## Requisitos
 
 - [x] Deve ser possível criar uma conta
