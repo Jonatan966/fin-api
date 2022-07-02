@@ -70,7 +70,21 @@ app.post("/account", (req, res) => {
 });
 
 app.get("/statement", verifyIfExistsAccountCPF, (req, res) => {
-  const { customer } = req;
+  const {
+    customer,
+    query: { date },
+  } = req;
+
+  if (date) {
+    const parsedDate = new Date(date + " 00:00");
+
+    const filteredStatement = customer.statement.filter(
+      (operation) =>
+        operation.created_at.toDateString() === parsedDate.toDateString()
+    );
+
+    return res.json(filteredStatement);
+  }
 
   return res.json(customer.statement);
 });
