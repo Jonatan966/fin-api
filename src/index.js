@@ -7,13 +7,14 @@ app.use(express.json());
 const customers = [];
 
 /**
+ * Customer Entity
  * cpf - string
  * name - string
  * id - uuid
  * statement - array[]
  */
 app.post("/account", (req, res) => {
-  const { cpf, name, statement } = req.body;
+  const { cpf, name } = req.body;
 
   const customerAlreadyExists = customers.some(
     (customer) => customer.cpf === cpf
@@ -35,6 +36,20 @@ app.post("/account", (req, res) => {
   customers.push(customerObject);
 
   return res.status(201).json(customerObject);
+});
+
+app.get("/statement", (req, res) => {
+  const { cpf } = req.headers;
+
+  const targetCustomer = customers.find((customer) => customer.cpf === cpf);
+
+  if (!targetCustomer) {
+    return res.status(400).json({
+      message: "Customer not found",
+    });
+  }
+
+  return res.json(targetCustomer.statement);
 });
 
 app.listen(3333);
